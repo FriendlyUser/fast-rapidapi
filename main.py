@@ -1,7 +1,22 @@
 from fastapi import FastAPI
 import pandas as pd
+from fastapi.middleware.cors import CORSMiddleware
+
+origins = [
+    "https://stonk-list-api.p.rapidapi.com",
+    "http://localhost:3000"
+]
 
 app = FastAPI()
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 us_tickers = pd.read_csv(
