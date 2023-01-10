@@ -44,17 +44,9 @@ async def get_files(exchange: str = "US"):
 
 
 # get file by name from deta /file/{id}
+# reason it was likely failing is because of the response size limit
 @app.get("/file/{id}")
 async def get_file(id: str):
-    output_file = drive.get(id)
-    # return file
-    # content = output_file.read()
-    
-    content = output_file.read()
-    output_file.close()
-    headers = {
-        'Content-Disposition': f'attachment; filename="{id}"'
-    }
-    bytesio_object = BytesIO(content)
-    return StreamingResponse(bytesio_object, headers=headers)
+    res = drive.get(id)
+    return StreamingResponse(res.iter_chunks(1024), media_type="application/pdf")
 
