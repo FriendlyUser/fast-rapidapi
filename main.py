@@ -53,7 +53,7 @@ async def get_file(id: str):
     content = output_file.read()
     output_file.close()
     headers = {
-        'Content-Disposition': f'inline; filename="{id}"'
+        'Content-Disposition': f'attachment; filename="{id}"'
     }
     bytesio_object = BytesIO(content)
     return StreamingResponse(bytesio_object, headers=headers)
