@@ -11,22 +11,22 @@ from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 
 # load deta using 
-project_key = os.getenv("DETA_DRIVE_KEY")
-deta = Deta(project_key)
-drive = deta.Drive("stonk_events")
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+# app.add_middleware(
+#     CORSMiddleware,
+#     allow_origins=["*"],
+#     allow_credentials=True,
+#     allow_methods=["*"],
+#     allow_headers=["*"],
+# )
 
 @app.get("/files")
 async def get_files(exchange: str = "US"):
     """
     """
+    project_key = os.getenv("DETA_DRIVE_KEY")
+    deta = Deta(project_key)
+    drive = deta.Drive("stonk_events")
     # get files in deta
     result = drive.list()
     all_files = result.get("names")
@@ -48,6 +48,9 @@ async def get_files(exchange: str = "US"):
 # reason it was likely failing is because of the response size limit
 @app.get("/file/{id}")
 async def get_file(id: str):
+    project_key = os.getenv("DETA_DRIVE_KEY")
+    deta = Deta(project_key)
+    drive = deta.Drive("stonk_events")
     res = drive.get(id)
     return StreamingResponse(res.iter_chunks(1024), media_type="application/pdf")
 
