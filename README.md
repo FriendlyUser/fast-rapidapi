@@ -6,7 +6,7 @@ colorTo: blue
 sdk: docker
 pinned: false
 license: openrail
-port: 8000
+port: 7860
 ---
 
 # fast-rapidapi
