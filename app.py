@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 import pandas as pd
 import os
-import requests
 from deta import Deta
 from fastapi.responses import StreamingResponse, FileResponse
 from io import BytesIO
@@ -12,13 +11,13 @@ app = FastAPI()
 
 # load deta using 
 
-# app.add_middleware(
-#     CORSMiddleware,
-#     allow_origins=["*"],
-#     allow_credentials=True,
-#     allow_methods=["*"],
-#     allow_headers=["*"],
-# )
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/files")
 async def get_files(exchange: str = "US"):
@@ -53,13 +52,3 @@ async def get_file(id: str):
     drive = deta.Drive("stonk_events")
     res = drive.get(id)
     return StreamingResponse(res.iter_chunks(1024), media_type="application/pdf")
-
-
-# app get https://raw.githubusercontent.com/FriendlyUser/chatgpt_prompts/main/README.md
-# and return text
-@app.get("/chatgpt/README")
-async def get_readme():
-    # requests get data from url
-    readMe = requests.get("https://raw.githubusercontent.com/FriendlyUser/chatgpt_prompts/main/README.md")
-    # return text
-    return readMe.text
