@@ -5,10 +5,6 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - run:
-          name: "mv file"
-          command: |
-            mv app.py main.py
       - uses: actions/checkout@v2 #Be sure you check-out the repo first. Deta CLI needs access to the files
       - uses: BogDAAAMN/deta-deploy-action@v1.0.1
         with:
