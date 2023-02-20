@@ -10,7 +10,7 @@ port: 8000
 ---
 
 # fast-rapidapi
-Simple fastapi hosted on deta for rapidapi
+Simple fastapi hosted on deta for personal projects and huggingface
 
 
 to run
