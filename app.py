@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 import pandas as pd
 import os
+import requests
 from deta import Deta
 from fastapi.responses import StreamingResponse, FileResponse
 from io import BytesIO
@@ -50,3 +51,12 @@ async def get_file(id: str):
     res = drive.get(id)
     return StreamingResponse(res.iter_chunks(1024), media_type="application/pdf")
 
+
+# app get https://raw.githubusercontent.com/FriendlyUser/chatgpt_prompts/main/README.md
+# and return text
+@app.get("/chatgpt/README")
+async def get_readme():
+    # requests get data from url
+    readMe = requests.get("https://raw.githubusercontent.com/FriendlyUser/chatgpt_prompts/main/README.md")
+    # return text
+    return readMe.text
